@@ -5,7 +5,7 @@ function App() {
   const [newItem, setNewItem] = useState("");
   const [items, setItems] = useState([]);
 
-  function addItem() {
+  const addItem = () => {
     if (!newItem) {
       alert("Enter an item");
       return;
@@ -18,12 +18,14 @@ function App() {
 
     setItems((oldList) => [...oldList, item]);
     setNewItem("");
-  }
 
-  function deleteItem(id) {
+    console.log(items);
+  };
+
+  const deleteItem = (id) => {
     const newArray = items.filter((item) => item.id !== id);
     setItems(newArray);
-  }
+  };
 
   return (
     <div className="App">
@@ -37,7 +39,7 @@ function App() {
         value={newItem}
         onChange={(e) => setNewItem(e.target.value)}
       />
-      <button onClick={() => addItem()}>Add</button>
+      <button onClick={addItem}>Add</button>
 
       {/* 3. List items */}
       <ul>
