@@ -18,8 +18,6 @@ function App() {
 
     setItems((oldList) => [...oldList, item]);
     setNewItem("");
-
-    console.log(items);
   };
 
   const deleteItem = (id) => {
