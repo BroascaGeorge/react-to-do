@@ -1,52 +1,77 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import "./App.css";
 
+const initialState = {
+  newInput: "",
+  items: [],
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "ADD_ITEM":
+      if (!state.newInput) {
+        alert("Please add an item");
+        return state;
+      }
+      const item = {
+        id: Math.floor(Math.random() * 1000),
+        value: state.newInput,
+      };
+      return {
+        ...state,
+        newInput: "",
+        items: [...state.items, item],
+      };
+    case "DELETE_ITEM":
+      const newArray = state.items.filter((item) => item.id !== action.payload);
+      return {
+        ...state,
+        items: newArray,
+      };
+    case "UPDATE_NEW_INPUT":
+      return {
+        ...state,
+        newInput: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [newItem, setNewItem] = useState("");
-  const [items, setItems] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const addItem = () => {
-    if (!newItem) {
-      alert("Enter an item");
-      return;
-    }
-
-    const item = {
-      id: Math.floor(Math.random() * 1000),
-      value: newItem,
-    };
-
-    setItems((oldList) => [...oldList, item]);
-    setNewItem("");
+    dispatch({ type: "ADD_ITEM" });
   };
 
   const deleteItem = (id) => {
-    const newArray = items.filter((item) => item.id !== id);
-    setItems(newArray);
+    dispatch({ type: "DELETE_ITEM", payload: id });
   };
 
   return (
     <div className="App">
-      {/* 1. Header  */}
-      <h3>To do list</h3>
+      {/* 1. Header   */}
 
-      {/* 2. Input  */}
+      <h3>To-do list</h3>
+
+      {/* 2. Input   */}
+
       <input
         type="text"
         placeholder="Add an item"
-        value={newItem}
-        onChange={(e) => setNewItem(e.target.value)}
-      />
+        value={state.newInput}
+        onChange={(e) =>
+          dispatch({ type: "UPDATE_NEW_INPUT", payload: e.target.value })
+        }
+      ></input>
       <button onClick={addItem}>Add</button>
 
       {/* 3. List items */}
       <ul>
-        {items.map((item) => (
+        {state.items.map((item) => (
           <li key={item.id}>
-            {item.value}{" "}
-            <button className="delete-btn" onClick={() => deleteItem(item.id)}>
-              🗙
-            </button>
+            {item.value} <button onClick={() => deleteItem(item.id)}>🗙</button>
           </li>
         ))}
       </ul>
