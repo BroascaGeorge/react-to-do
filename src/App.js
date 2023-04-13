@@ -6,7 +6,7 @@ const initialState = {
   items: [],
 };
 
-function reducer(state, action) {
+const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_ITEM":
       if (!state.newInput) {
@@ -36,7 +36,7 @@ function reducer(state, action) {
     default:
       return state;
   }
-}
+};
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
