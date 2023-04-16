@@ -51,11 +51,11 @@ function App() {
 
   return (
     <div className="App">
-      {/* 1. Header   */}
+      
 
       <h3>To-do list</h3>
 
-      {/* 2. Input   */}
+      
 
       <input
         type="text"
@@ -67,7 +67,8 @@ function App() {
       ></input>
       <button onClick={addItem}>Add</button>
 
-      {/* 3. List items */}
+      
+      
       <ul>
         {state.items.map((item) => (
           <li key={item.id}>
