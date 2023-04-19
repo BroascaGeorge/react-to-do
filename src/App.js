@@ -1,5 +1,7 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
+import Header from "./Header";
+import TodoList from "./TodoList";
 
 const initialState = {
   newInput: "",
@@ -49,33 +51,20 @@ function App() {
     dispatch({ type: "DELETE_ITEM", payload: id });
   };
 
+  const updateNewInput = (value) => {
+    dispatch({ type: "UPDATE_NEW_INPUT", payload: value });
+  };
+
   return (
     <div className="App">
-      
-
-      <h3>To-do list</h3>
-
-      
-
-      <input
-        type="text"
-        placeholder="Add an item"
-        value={state.newInput}
-        onChange={(e) =>
-          dispatch({ type: "UPDATE_NEW_INPUT", payload: e.target.value })
-        }
-      ></input>
-      <button onClick={addItem}>Add</button>
-
-      
-      
-      <ul>
-        {state.items.map((item) => (
-          <li key={item.id}>
-            {item.value} <button onClick={() => deleteItem(item.id)}>🗙</button>
-          </li>
-        ))}
-      </ul>
+      <Header />
+      <TodoList
+        newInput={state.newInput}
+        items={state.items}
+        addItem={addItem}
+        deleteItem={deleteItem}
+        updateNewInput={updateNewInput}
+      />
     </div>
   );
 }
